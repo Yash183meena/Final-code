@@ -7,35 +7,38 @@ using namespace std;
 class Solution {
   public:
   
-    void solve(string s, set<string>& st,int index){
+    void solve(string &s,int index,string str,set<string>&st){
         
         if(index>=s.size()){
-            st.insert(s);
+            st.insert(str);
             return;
         }
         
-        
         for(int i=index;i<s.size();i++){
             
-            swap(s[index],s[i]);
-            
-            solve(s,st,index+1);
-            
-            swap(s[i],s[index]);
+           swap(s[i],s[index]);
+           
+           str.push_back(s[index]);
+           solve(s,index+1,str,st);
+           
+           str.pop_back();
+           swap(s[index],s[i]);
         }
     }
     
-    vector<string> find_permutation(string s) {
+    vector<string> find_permutation(string &s) {
         // Code here there
         set<string>st;
-        solve(s,st,0);
-        vector<string>permutuations;
+        vector<string>permututations;
+        string str="";
         
-        for(auto str:st){
-            permutuations.push_back(str);
+        solve(s,0,str,st);
+        
+        for(auto permutuation : st){
+            permututations.push_back(permutuation);
         }
         
-        return permutuations;
+        return permututations;
         
     }
 };
