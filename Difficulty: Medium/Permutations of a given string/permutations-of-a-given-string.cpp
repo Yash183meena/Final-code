@@ -7,7 +7,8 @@ using namespace std;
 class Solution {
   public:
   
-    void solve(string &s,int index,string str,set<string>&st){
+    void solve(string s,string str,int index,set<string>&st){
+        
         
         if(index>=s.size()){
             st.insert(str);
@@ -16,29 +17,28 @@ class Solution {
         
         for(int i=index;i<s.size();i++){
             
-           swap(s[i],s[index]);
-           
-           str.push_back(s[index]);
-           solve(s,index+1,str,st);
-           
-           str.pop_back();
-           swap(s[index],s[i]);
+            swap(s[index],s[i]);
+            str.push_back(s[index]);
+            
+            solve(s,str,index+1,st);
+            
+            swap(s[i],s[index]);
+            str.pop_back();
         }
     }
     
-    vector<string> find_permutation(string &s) {
+    vector<string> findPermutation(string &s) {
         // Code here there
         set<string>st;
-        vector<string>permututations;
-        string str="";
+        vector<string>vec;
         
-        solve(s,0,str,st);
+        solve(s,"",0,st);
         
-        for(auto permutuation : st){
-            permututations.push_back(permutuation);
+        for(auto str:st){
+            vec.push_back(str);
         }
         
-        return permututations;
+        return vec;
         
     }
 };
@@ -52,7 +52,7 @@ int main() {
         string S;
         cin >> S;
         Solution ob;
-        vector<string> ans = ob.find_permutation(S);
+        vector<string> ans = ob.findPermutation(S);
         sort(ans.begin(), ans.end());
         for (auto i : ans) {
             cout << i << " ";
