@@ -1,6 +1,4 @@
 //{ Driver Code Starts
-// Initial Template for C++
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -10,28 +8,35 @@ using namespace std;
 
 class Solution {
   public:
-    int maxLen(vector<int>& arr, int n) {
-        // Your code here
+    int maxLen(vector<int>& arr) {
+        // code here
         
-        map<int,pair<int,int>>mp;
-        int sum=0,ans=INT_MIN;
+        int n=arr.size(),ans=INT_MIN;
+        map<int,pair<int,int>>hash;
+        vector<int>prefix(n);
+        prefix[0]=arr[0];
+        
+        for(int i=1;i<arr.size();i++){
+            prefix[i]+=prefix[i-1]+arr[i];
+        }
         
         for(int i=0;i<n;i++){
-            sum+=arr[i];
-            if(sum==0){
+            
+            if(prefix[i]==0){
                 ans=max(ans,i+1);
             }
-                
-            if(mp.find(sum)!=mp.end()){
-                mp[sum].second=i;
+            
+            if(hash.find(prefix[i])!=hash.end()){
+                hash[prefix[i]].second=i;
             }
+            
             else{
-                mp[sum].first=i;
-                mp[sum].second=i;
+                hash[prefix[i]].first=i;
+                hash[prefix[i]].second=i;
             }
         }
         
-        for(auto itr:mp){
+        for(auto itr:hash){
             ans=max(ans,itr.second.second-itr.second.first);
         }
         
@@ -45,19 +50,24 @@ class Solution {
 int main() {
     int t;
     cin >> t;
+    cin.ignore(); // to ignore the newline after the integer input
     while (t--) {
-        int m;
-        cin >> m;
-        vector<int> array1(m);
-        for (int i = 0; i < m; ++i) {
-            cin >> array1[i];
-        }
-        Solution ob;
-        cout << ob.maxLen(array1, m) << endl;
+        int n;
+        vector<int> a;
+        string input;
 
-        cout << "~"
-             << "\n";
+        // Input format: first number n followed by the array elements
+        getline(cin, input);
+        stringstream ss(input);
+        int num;
+        while (ss >> num)
+            a.push_back(num);
+
+        Solution obj;
+        cout << obj.maxLen(a) << endl;
+        cout << "~\n";
     }
+
     return 0;
 }
 
