@@ -8,44 +8,28 @@ class Solution {
   public:
     int lenOfLongestSubarr(vector<int>& arr, int k) {
         // code here
-        vector<int>prefix;
-        int sum=0,ans=INT_MIN;
         
-        for(int i=0;i<arr.size();i++){
-            sum+=arr[i];
-            prefix.push_back(sum);
-            if(sum==k){
-                ans=i+1;
+        int n=arr.size(),prefix_sum=0,ans=0;
+        map<int,int>hash;
+        
+        for(int i=0;i<n;i++){
+            
+            prefix_sum+=arr[i];
+            
+            if(prefix_sum==k){
+                ans=max(ans,i+1);
             }
-            if(arr[i]==k){
-                ans=max(ans,1);
+            
+            if(hash.find(prefix_sum-k)!=hash.end()){
+                ans=max(i-hash[prefix_sum-k],ans);
+            }
+            
+            if(hash.find(prefix_sum)==hash.end()){
+                hash[prefix_sum]=i;
             }
         }
         
-        int i=0,j=i+1;
-        
-        while(i<j && j<arr.size() && i<arr.size()){
-            
-            if(prefix[j]-prefix[i]==k){
-                //cout<<j<<" "<<i;
-                ans=max(j-i,ans);
-                j++;
-            }
-            
-            else if(prefix[j]-prefix[i]>k){
-                i++;
-            }
-            
-            else if(prefix[j]-prefix[i]<k){
-                j++;
-            }
-            
-            if(i==j){
-                j++;
-            }
-        }
-        
-        return ans==INT_MIN? 0 : ans;
+        return ans;
     }
 };
 
@@ -73,6 +57,7 @@ int main() {
 
         Solution solution;
         cout << solution.lenOfLongestSubarr(arr, k) << "\n";
+        cout << "~\n";
     }
 
     return 0;
