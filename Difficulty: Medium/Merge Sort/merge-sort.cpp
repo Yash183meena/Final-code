@@ -7,52 +7,49 @@ using namespace std;
 class Solution {
   public:
   
-    void merge(vector<int>&arr, int left, int mid,int right){
+    void merge(vector<int>& arr,int left,int mid,int right){
         
-        int n1 = mid-left+1;
-        int n2 = right-mid;
+        int n1=mid-left+1;
+        int n2=right-mid;
         
-        vector<int>lt(n1),rt(n2),ans;
+        vector<int>arr1,arr2;
         
         for(int i=0;i<n1;i++){
-            lt[i]=arr[left+i];
+            arr1.push_back(arr[left+i]);
         }
         
         for(int j=0;j<n2;j++){
-            rt[j]=arr[mid+j+1];
+            arr2.push_back(arr[mid+j+1]);
         }
         
-        int i=0,j=0;
+        int i=0,j=0,k=left;
         
         while(i<n1 && j<n2){
-            
-            if( lt[i] < rt[j] ){
-                ans.push_back(lt[i]);
-                i++;
-            }
-            
-            else{
-                ans.push_back(rt[j]);
+            if(arr1[i] > arr2[j]){
+                arr[k]=arr2[j];
+                k++;
                 j++;
+            }
+            else if(arr1[i] <= arr2[j]){
+                arr[k]=arr1[i];
+                i++;
+                k++;
             }
         }
         
         if(i==n1){
             for(;j<n2;j++){
-                ans.push_back(rt[j]);
+                arr[k]=arr2[j];
+                k++;
             }
         }
         
-        else if(j==n2){
+        if(j==n2){
             for(;i<n1;i++){
-                ans.push_back(lt[i]);
+                arr[k]=arr1[i];
+                k++;
             }
         }
-        
-        for(int i=0;i<ans.size();i++){
-            arr[left+i]=ans[i];
-        }
-        
     }
     
     void mergeSort(vector<int>& arr, int l, int r) {
@@ -64,7 +61,6 @@ class Solution {
             mergeSort(arr,mid+1,r);
             merge(arr,l,mid,r);
         }
-        
     }
 };
 
