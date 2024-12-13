@@ -8,23 +8,22 @@ class Solution {
   public:
     int findSubarray(vector<int> &arr) {
         // code here.
-        map<int,int>mp;
-        int ans=0,n=arr.size(),sum=0;
         
-        for(int i=0;i<n;i++){
+        map<int,int>mp;
+        int prefix=0,ans=0;
+        
+        for(int i=0;i<arr.size();i++){
+            prefix+=arr[i];
             
-            sum+=arr[i];
-            
-            if(sum==0){
+            if(prefix==0){
                 ans++;
             }
             
-            ans+=mp[sum];
-            mp[sum]++;
+            ans+=mp[prefix];
+            mp[prefix]++;
         }
         
         return ans;
-        
     }
 };
 
