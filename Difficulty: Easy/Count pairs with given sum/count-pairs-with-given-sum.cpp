@@ -9,33 +9,30 @@ class Solution {
     int countPairs(vector<int> &arr, int target) {
         // Code here
         
-        int ans=0,n=arr.size();
-        unordered_map<int,int>mp;
+        map<int,int>count;
+        int ans=0;
         
         for(int i=0;i<arr.size();i++){
-            mp[arr[i]]++;
+            count[arr[i]]++;
         }
         
-        
-        for(int i=0;i<n;i++){
+        for(int i=0;i<arr.size();i++){
             
             int key=target-arr[i];
             
-            if(mp.find(key)!=mp.end()){
-               ans+=mp[key];
+            if(count.find(key)!=count.end()){
+                ans+=count[key];
             }
             
-            if(key==arr[i]){
+            if(arr[i] == key){
                 ans--;
             }
             
         }
         
-        
         return ans/2;
     }
 };
-
 
 //{ Driver Code Starts.
 
