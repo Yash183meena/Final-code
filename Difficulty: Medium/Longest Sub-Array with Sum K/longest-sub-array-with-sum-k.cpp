@@ -9,30 +9,30 @@ class Solution {
     int lenOfLongestSubarr(vector<int>& arr, int k) {
         // code here
         
-        int n=arr.size(),prefix_sum=0,ans=0;
         map<int,int>hash;
         
-        for(int i=0;i<n;i++){
+        int prefix=0,len=INT_MIN;
+        
+        for(int i=0;i<arr.size();i++){
             
-            prefix_sum+=arr[i];
+            prefix+=arr[i];
             
-            if(prefix_sum==k){
-                ans=max(ans,i+1);
+            if(prefix == k){
+                len=max(len,i+1);
             }
             
-            if(hash.find(prefix_sum-k)!=hash.end()){
-                ans=max(i-hash[prefix_sum-k],ans);
+            if(hash.find(prefix-k)!=hash.end()){
+                len=max(i-hash[prefix-k],len);
             }
             
-            if(hash.find(prefix_sum)==hash.end()){
-                hash[prefix_sum]=i;
+            if(hash.find(prefix) == hash.end()){
+                hash[prefix]=i;
             }
         }
         
-        return ans;
+        return len;
     }
 };
-
 
 //{ Driver Code Starts.
 
