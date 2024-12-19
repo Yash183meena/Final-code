@@ -11,35 +11,34 @@ class Solution {
     int maxLen(vector<int>& arr) {
         // code here
         
-        int n=arr.size(),ans=INT_MIN;
-        map<int,pair<int,int>>hash;
-        vector<int>prefix(n);
-        prefix[0]=arr[0];
+        map<int,pair<int,int>>mp;
+        int prefix=0;
         
-        for(int i=1;i<arr.size();i++){
-            prefix[i]+=prefix[i-1]+arr[i];
-        }
-        
-        for(int i=0;i<n;i++){
+        for(int i=0;i<arr.size();i++){
             
-            if(prefix[i]==0){
-                ans=max(ans,i+1);
-            }
+            prefix+=arr[i];
             
-            if(hash.find(prefix[i])!=hash.end()){
-                hash[prefix[i]].second=i;
+            if(mp.find(prefix)!=mp.end()){
+                mp[prefix].second=i;
             }
             
             else{
-                hash[prefix[i]].first=i;
-                hash[prefix[i]].second=i;
+                mp[prefix]={i,i};
             }
         }
         
-        for(auto itr:hash){
+        int ans=INT_MIN;
+        
+        for(auto itr:mp){
+            
+            if(itr.first==0){
+                ans=max(ans,itr.second.second+1);
+            }
+            
             ans=max(ans,itr.second.second-itr.second.first);
         }
         
+       // cout<<ans;
         return ans;
     }
 };
