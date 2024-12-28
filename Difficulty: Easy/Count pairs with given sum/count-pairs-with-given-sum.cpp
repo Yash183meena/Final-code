@@ -10,27 +10,19 @@ class Solution {
         // Code here
         
         map<int,int>count;
-        int ans=0;
+        int pairs=0;
         
         for(int i=0;i<arr.size();i++){
+            
+            int x=target-arr[i];
+            
+            pairs+=count[x];
+            
             count[arr[i]]++;
         }
         
-        for(int i=0;i<arr.size();i++){
-            
-            int key=target-arr[i];
-            
-            if(count.find(key)!=count.end()){
-                ans+=count[key];
-            }
-            
-            if(arr[i] == key){
-                ans--;
-            }
-            
-        }
-        
-        return ans/2;
+        //cout<<pairs;
+        return pairs;
     }
 };
 
