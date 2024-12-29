@@ -9,28 +9,30 @@ class Solution {
     int lenOfLongestSubarr(vector<int>& arr, int k) {
         // code here
         
-        map<int,int>hash;
+        int prefix=0,ans=0;
         
-        int prefix=0,len=INT_MIN;
+        map<int,int>hash;
         
         for(int i=0;i<arr.size();i++){
             
             prefix+=arr[i];
             
             if(prefix == k){
-                len=max(len,i+1);
+                ans=i+1;
             }
             
             if(hash.find(prefix-k)!=hash.end()){
-                len=max(i-hash[prefix-k],len);
+                ans = max(ans,i - hash[prefix-k]);
             }
             
             if(hash.find(prefix) == hash.end()){
                 hash[prefix]=i;
             }
+            
         }
         
-        return len;
+       // cout<<ans;
+        return ans;
     }
 };
 
