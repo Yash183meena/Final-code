@@ -9,14 +9,14 @@ using namespace std;
 
 class Solution {
   public:
-  
-    bool solve(int idx,vector<int>& arr, int target,vector<vector<int>>&dp){
+    
+    bool solve(vector<int>& arr, int target,int idx,vector<vector<int>>&dp){
         
         if(target == 0){
             return true;
         }
         
-        if( target<0 || idx>=arr.size() ){
+        if(idx>=arr.size() || target<0){
             return false;
         }
         
@@ -24,20 +24,23 @@ class Solution {
             return dp[idx][target];
         }
         
-        bool take= solve(idx+1,arr,target-arr[idx],dp);
+        bool take = solve(arr,target-arr[idx],idx+1,dp);
         
-        bool not_Take = solve(idx+1,arr,target,dp);
+        bool not_take=solve(arr,target,idx+1,dp);
         
-        return dp[idx][target] = (take || not_Take);
+        return dp[idx][target] = take || not_take;
     }
-  
+    
     bool isSubsetSum(vector<int>& arr, int target) {
         // code here
         
+        int n=arr.size();
         
-        vector<vector<int>>dp(arr.size()+1,vector<int>(target+1,-1));
+        vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
         
-        return solve(0,arr,target,dp);
+        return solve(arr,target,0,dp);
+        
+        return false;
     }
 };
 
