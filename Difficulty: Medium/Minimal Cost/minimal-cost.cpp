@@ -6,8 +6,8 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    
-    int solve(int idx,vector<int>&dp,int k,vector<int>& arr,int n){
+  
+    int solve(int k, vector<int>& arr,int idx,int n,vector<int>&dp){
         
         if(idx == n-1){
             return 0;
@@ -17,27 +17,24 @@ class Solution {
             return dp[idx];
         }
         
-        int cost=INT_MAX;
+        int cost=INT_MAX,ans=INT_MAX;
         
         for(int i=idx+1;i<=idx+k;i++){
             
-            if(i<n){
-                int a = abs(arr[idx]-arr[i]);
-                
-                cost = min(cost,a+solve(i,dp,k,arr,n));
+            if(i < n){
+                cost = abs(arr[i] - arr[idx]) + solve(k,arr,i,n,dp);
+                ans=min(ans,cost);
             }
         }
         
-        return dp[idx]=cost;
-    }
+        return dp[idx] = ans;
+    } 
     
     int minimizeCost(int k, vector<int>& arr) {
         // Code here
-        
         int n=arr.size();
-        vector<int>dp(n,-1);
-        return solve(0,dp,k,arr,n);
-        
+        vector<int>dp(n+1,-1);
+        return solve(k,arr,0,n,dp);
         return 0;
     }
 };
