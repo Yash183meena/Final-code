@@ -6,10 +6,10 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    
-    int solve(int idx,vector<int>&dp,vector<int>& height,int n){
+  
+    int solve(vector<int>& height, int n,int idx,vector<int>&dp){
         
-        if(idx == n-1){
+        if(idx==n-1){
             return 0;
         }
         
@@ -19,24 +19,24 @@ class Solution {
         
         int one_step=INT_MAX,two_step=INT_MAX;
         
-        if(idx+1 < n ){
-            one_step= abs(height[idx]-height[idx+1])  + solve(idx+1,dp,height,n);
+        if(idx+1 < n){
+            one_step = abs(height[idx]-height[idx+1]) + solve(height,n,idx+1,dp);
         }
         
         if(idx+2 < n){
-            two_step = abs(height[idx]-height[idx+2]) + solve(idx+2,dp,height,n);
+            two_step = abs(height[idx+2]-height[idx]) + solve(height,n,idx+2,dp);
         }
         
         return dp[idx]=min(one_step,two_step);
     }
     
+    
     int minimumEnergy(vector<int>& height, int n) {
         // Code here
+        vector<int>dp(n+1,-1);
         
-        vector<int>dp(n,-1);
+        return  solve(height,n,0,dp);
         
-        return solve(0,dp,height,n);
-        return 0;
     }
 };
 
