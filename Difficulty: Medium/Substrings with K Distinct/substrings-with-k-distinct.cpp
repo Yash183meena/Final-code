@@ -10,52 +10,40 @@ using namespace std;
 
 class Solution {
   public:
-    int countSubstr(string& s, int k) {
-        // code here.
-        int i=0,j=0,ans=0,ans1=0;
+    
+    int solve(string& s, int k){
+        
+        int substrings=0,left=0,right=0;
         map<char,int>hash;
         
-        for(j=0;j<s.size();j++){
+        for(right=0;right<s.size();right++){
             
-            hash[s[j]]++;
+            hash[s[right]]++;
             
-            while(i<s.size() && hash.size()>k){
+            while(left<=right && hash.size() > k){
                 
-                hash[s[i]]--;
+                hash[s[left]]--;
                 
-                if(hash[s[i]]==0){
-                    hash.erase(s[i]);
+                if(hash[s[left]]==0){
+                    hash.erase(s[left]);
                 }
                 
-                i++;
+                left++;
             }
             
-            ans+=j-i+1;
+            substrings+=(right-left+1);
             
         }
         
-        hash.clear();
-        i=0;
-        for(j=0;j<s.size();j++){
-            
-            hash[s[j]]++;
-            
-            while(i<s.size() && hash.size()>k-1){
-                
-                hash[s[i]]--;
-                
-                if(hash[s[i]]==0){
-                    hash.erase(s[i]);
-                }
-                
-                i++;
-            }
-            
-            ans1+=j-i+1;
-            
-        }
+        return substrings;
+    }
+    
+    int countSubstr(string& s, int k) {
+        // code here.
         
-        return ans-ans1;
+        return solve(s,k) - solve(s,k-1);
+        
+        return 0;
     }
 };
 
