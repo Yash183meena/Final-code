@@ -11,25 +11,28 @@ class Solution {
     // Function to find the minimum number of swaps required to sort the array.
     int minSwaps(vector<int>& arr) {
         // Code here
-        int swp=0;
+        
         vector<pair<int,int>>vec;
+        int swaps=0;
         
         for(int i=0;i<arr.size();i++){
             vec.push_back({arr[i],i});
         }
         
-        sort(begin(vec),end(vec));
+        sort(vec.begin(),vec.end());
         
-        for(int i=0;i<arr.size();i++){
-            if(i!=vec[i].second){
-                //this is due to only distinct elements is available
-                swap(vec[vec[i].second],vec[i]);
-                swp++;
+        for(int i=0;i<vec.size();i++){
+            
+            if(vec[i].second!=i){
+                swap(vec[i],vec[vec[i].second]);
                 i--;
+                swaps++;
             }
         }
         
-        return swp;
+        //cout<<swaps<<endl;
+        
+        return swaps;
     }
 };
 
