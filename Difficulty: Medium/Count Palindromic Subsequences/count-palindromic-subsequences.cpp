@@ -9,8 +9,7 @@ class Solution {
   public:
     /*You are required to complete below method */
     
-    //very good question assan nahi hai bhai
-    int solve(string &s,int i,int j,vector<vector<int>>&dp){
+    int solve(string s,int i,int j,vector<vector<int>>&dp){
         
         if(i>j){
             return 0;
@@ -36,7 +35,8 @@ class Solution {
         int n=s.size();
         vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
         
-        return solve(s,0,n-1,dp);
+        return solve(s,0,s.size()-1,dp);
+        
     }
 };
 
