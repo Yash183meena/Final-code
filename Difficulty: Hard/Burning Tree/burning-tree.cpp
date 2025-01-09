@@ -95,73 +95,73 @@ struct Node {
 */
 class Solution {
   public:
-    
-    void findParent( Node* root, map<Node*,Node*>&parent, Node*&point ,int target){
+     
+    void findParent(Node* root, int target,map<Node*,Node*>&parent,Node*&Burn_Node){
         
         if(!root){
             return;
         }
         
         if(root->data == target){
-            point=root;
+            Burn_Node=root;
         }
         
         if(root->left){
             parent[root->left]=root;
+            findParent(root->left,target,parent,Burn_Node);
         }
         
         if(root->right){
-          parent[root->right]=root;
+            parent[root->right]=root;
+            findParent(root->right,target,parent,Burn_Node);
         }
-        
-        findParent(root->left,parent,point,target);
-        findParent(root->right,parent,point,target);
     }
     
     int minTime(Node* root, int target) {
         // code here
-        int ans=0;
-        map<Node*,Node*>parent;
-        Node*point=nullptr;
-        findParent(root,parent,point,target);
         
-        queue<Node*>que;
+        int Burn_time=0;
+        Node*Burn_Node=NULL;
+        map<Node*,Node*>parent;
         map<Node*,bool>visited;
         
-        que.push(point);
-        visited[point]=true;
+        findParent(root,target,parent,Burn_Node);
         
+        queue<Node*>que;
+        que.push(Burn_Node);
+        
+        visited[Burn_Node]=true;
         
         while(!que.empty()){
             
             int size=que.size();
             
             for(int i=0;i<size;i++){
-                
-                Node*node=que.front();
-                que.pop();
-                
-                if(node->left && !visited[node->left]){
-                    que.push(node->left);
-                    visited[node->left]=true;
-                }
-                
-                if(node->right && !visited[node->right]){
-                    que.push(node->right);
-                    visited[node->right]=true;
-                }
-                
-                if(parent.find(node)!=parent.end() && !visited[parent[node]]){
-                    que.push(parent[node]);
-                    visited[parent[node]]=true;
-                }
+                Node*current=que.front();
+            que.pop();
+            
+            if(current->left && !visited[current->left]){
+                que.push(current->left);
+                visited[current->left]=true;
             }
             
-            ans++;
+            if(current->right && !visited[current->right]){
+                que.push(current->right);
+                visited[current->right]=true;
+             
+            }
+            
+            if(parent.find(current)!=parent.end() && !visited[parent[current]]){
+                que.push(parent[current]);
+                visited[parent[current]]=true;
+            }
+            
+            
+            }
+            Burn_time++;
         }
         
-       // cout<<ans;
-        return ans-1;
+        return Burn_time-1;
     }
 };
 
