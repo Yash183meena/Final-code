@@ -12,7 +12,7 @@ class Solution {
     vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
         // Code here
         
-        priority_queue<pair<int,int>,vector<pair<int,int>>>pq;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
         
         vector<int>dis(adj.size(),INT_MAX);
         pq.push({0,src});
