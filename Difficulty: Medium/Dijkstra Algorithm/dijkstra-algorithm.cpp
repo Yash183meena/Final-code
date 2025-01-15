@@ -12,48 +12,31 @@ class Solution {
     vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
         // Code here
         
-        map<int,vector<pair<int,int>>>graph;
+        priority_queue<pair<int,int>,vector<pair<int,int>>>pq;
         
-        for(int i=0;i<adj.size();i++){
-            for(auto pair : adj[i]){
-                int node=pair.first;
-                int dist=pair.second;
-                
-                graph[i].push_back({dist,node});
-            }
-        }
-        
-        int n=adj.size();
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        vector<int>distance(n,INT_MAX);
-        
-        distance[src]=0;
+        vector<int>dis(adj.size(),INT_MAX);
         pq.push({0,src});
         
+        dis[src] = 0;
         
         while(!pq.empty()){
             
-            int node=pq.top().second;
+            int node = pq.top().second;
             int weight=pq.top().first;
             pq.pop();
             
-            for(auto node_pair : graph[node]){
+            for(auto newnode_pair : adj[node]){
+                int newnode = newnode_pair.first;
                 
-                int newnode=node_pair.second;
-                int dist=node_pair.first;
-                
-                if( distance[newnode] > weight + dist){
-                    distance[newnode] = weight + dist;
-                    pq.push({distance[newnode],newnode});
+                if( weight + newnode_pair.second < dis[newnode]){
+                    dis[newnode]=weight+newnode_pair.second;
+                    pq.push({dis[newnode],newnode});
                 }
             }
         }
         
-        // for(auto itr :distance){
-        //     cout<<itr<<" ";
-        // }
-        // cout<<endl;
-        return distance;
+        
+        return dis;
     }
 };
 
