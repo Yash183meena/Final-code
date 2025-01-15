@@ -8,21 +8,29 @@ class Solution {
   public:
     int countPairs(vector<int> &arr, int target) {
         // Code here
-        
-        map<int,int>count;
-        int pairs=0;
+        map<int,int>hash;
+        int count=0;
+        for(int i=0;i<arr.size();i++){
+            hash[arr[i]]++;    
+        }
         
         for(int i=0;i<arr.size();i++){
             
-            int x=target-arr[i];
+            int x= target-arr[i];
             
-            pairs+=count[x];
+            if(hash.find(x)!=hash.end()){
+                count+=hash[x];
+            }
             
-            count[arr[i]]++;
+            if(x == arr[i]){
+                count--;
+            }
+            
+            hash[arr[i]]--;
         }
         
-        //cout<<pairs;
-        return pairs;
+        return count;
+        
     }
 };
 
