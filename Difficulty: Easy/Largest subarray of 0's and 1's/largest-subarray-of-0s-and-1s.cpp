@@ -4,47 +4,40 @@ using namespace std;
 
 
 // } Driver Code Ends
-/*You are required to complete this method*/
-
-// arr[] : the input array containing 0s and 1s
-// N : size of the input array
-
-// return the maximum length of the subarray
-// with equal 0s and 1s
 class Solution {
   public:
-    int maxLen(int arr[], int n) {
+    int maxLen(vector<int> &arr) {
         // Your code here
         
-        map<int,pair<int,int>>mp;
-        int sum=0,ans=INT_MIN;
+        //we convert this question to replace the 
+        //zeroes to -1 and find the largest array with sum 0
         
-        for(int i=0;i<n;i++){
+        for(int i=0;i<arr.size();i++){
             if(arr[i]==0){
                 arr[i]=-1;
             }
         }
         
-        for(int i=0;i<n;i++){
-            sum+=arr[i];
-            if(sum==0){
-                ans=max(ans,i+1);
+        map<int,int>hash;
+        int len=0,prefix=0;
+        
+        for(int i=0;i<arr.size();i++){
+            prefix+=arr[i];
+            
+            if(prefix==0){
+                len=max(len,i+1);
             }
             
-            if(mp.find(sum)!=mp.end()){
-                mp[sum].second=i;
+            if(hash.find(prefix)!=hash.end()){
+                len=max(len,i-hash[prefix]);
             }
-            else{
-                mp[sum].first=i;
-                mp[sum].second=i;
+            
+            if(hash.find(prefix)==hash.end()){
+                hash[prefix]=i;
             }
         }
         
-        for(auto itr:mp){
-            ans=max(ans,itr.second.second-itr.second.first);
-        }
-        
-        return ans;
+        return len;
     }
 };
 
@@ -52,21 +45,29 @@ class Solution {
 //{ Driver Code Starts.
 
 int main() {
-    // your code goes here
     int T;
     cin >> T;
-    while (T--) {
-        int n;
-        cin >> n;
-        int a[n];
-        for (int i = 0; i < n; i++)
-            cin >> a[i];
-        Solution obj;
-        cout << obj.maxLen(a, n) << endl;
+    cin.ignore(); // To ignore the newline character after reading T
 
-        cout << "~"
-             << "\n";
+    while (T--) {
+        string line;
+        getline(cin, line); // Read the whole line for the array
+
+        // Convert the line into an array of integers
+        stringstream ss(line);
+        vector<int> a;
+        int num;
+        while (ss >> num) {
+            a.push_back(num);
+        }
+
+        // Create the solution object
+        Solution obj;
+
+        // Call the maxLen function and print the result
+        cout << obj.maxLen(a) << endl;
     }
+
     return 0;
 }
 // } Driver Code Ends
