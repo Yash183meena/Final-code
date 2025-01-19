@@ -7,22 +7,29 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in an undirected graph.
-    bool isCyclic(int node,vector<vector<int>>& adj,vector<bool>&visited,int parent){
+    bool isCyclic(int node,vector<vector<int>>& adj,map<int,int>&parent,vector<int>&visited){
+        
+        queue<int>que;
+        que.push(node);
         
         visited[node]=true;
         
-        for(auto newnode : adj[node]){
+        while(!que.empty()){
             
-            if(newnode == parent){
-                continue;
-            }
+            int node = que.front();
+            que.pop();
             
-            if(visited[newnode]){
-                return true;
-            }
-            
-            else if(isCyclic(newnode,adj,visited,node)){
-                return true;
+            for(auto newnode : adj[node]){
+                
+                if(!visited[newnode]){
+                    parent[newnode]=node;
+                    que.push(newnode);
+                    visited[newnode]=true;
+                }
+                
+                else if(parent[node]!=newnode){
+                    return true;
+                }
             }
         }
         
@@ -31,14 +38,14 @@ class Solution {
     
     bool isCycle(vector<vector<int>>& adj) {
         // Code here
-        int n=adj.size();
-        vector<bool>visited(n,false);
         
-        for(int i=0;i<n;i++){
-            if(!visited[i]){
-                if(isCyclic(i,adj,visited,-1)){
-                    return true;
-                }
+        int v=adj.size();
+        map<int,int>parent;
+        vector<int>visited(v,false);
+        
+        for(int i=0;i<v;i++){
+            if(!visited[i] && isCyclic(i,adj,parent,visited)){
+                return true;
             }
         }
         
