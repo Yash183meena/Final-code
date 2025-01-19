@@ -10,36 +10,28 @@ class Solution {
   public:
     int maxLen(vector<int>& arr) {
         // code here
-        
-        map<int,pair<int,int>>mp;
-        int prefix=0;
+        map<int,int>hash;
+        int prefix=0,len=0;
+        int k=0;
         
         for(int i=0;i<arr.size();i++){
             
             prefix+=arr[i];
             
-            if(mp.find(prefix)!=mp.end()){
-                mp[prefix].second=i;
+            if(prefix==k){
+                len=max(len,i+1);
             }
             
-            else{
-                mp[prefix]={i,i};
+            if(hash.find(prefix-k)!=hash.end()){
+                len=max(len,i-hash[prefix-k]);
+            }
+            
+            if(hash.find(prefix)==hash.end()){
+                hash[prefix]=i;
             }
         }
         
-        int ans=INT_MIN;
-        
-        for(auto itr:mp){
-            
-            if(itr.first==0){
-                ans=max(ans,itr.second.second+1);
-            }
-            
-            ans=max(ans,itr.second.second-itr.second.first);
-        }
-        
-       // cout<<ans;
-        return ans;
+        return len;
     }
 };
 
