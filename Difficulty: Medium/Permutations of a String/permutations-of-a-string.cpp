@@ -6,35 +6,31 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    
-    void solve(string s,set<string>&st,int idx){
+    void solve(string &s,int idx,set<string>&vec){
         
         if(idx>=s.size()){
-            st.insert(s);
+            vec.insert(s);
             return;
         }
         
         for(int i=idx;i<s.size();i++){
             swap(s[idx],s[i]);
-            solve(s,st,idx+1);
+            solve(s,idx+1,vec);
             swap(s[idx],s[i]);
         }
     }
-    
     vector<string> findPermutation(string &s) {
         // Code here there
         
-        set<string>st;
-        vector<string>vec;
-        int idx=0;
-        
-        solve(s,st,0);
-        
-        for(auto str:st){
-            vec.push_back(str);
+        set<string>vec;
+        vector<string>ans;
+        solve(s,0,vec);
+        for(auto str : vec){
+            ans.push_back(str);
         }
-        return vec;
         
+        
+        return ans;
     }
 };
 
