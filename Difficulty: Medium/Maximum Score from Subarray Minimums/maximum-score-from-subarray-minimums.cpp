@@ -11,9 +11,10 @@ class Solution {
     // Function to find pair with maximum sum
     int pairWithMaxSum(vector<int> &arr) {
         // Your code goes here
-        int ans=INT_MIN;
-        for(int i=1;i<arr.size();i++){
-            ans=max(arr[i]+arr[i-1],ans);
+        int ans=0,n=arr.size();
+        
+        for(int i=0;i<n-1;i++){
+            ans=max(ans,arr[i]+arr[i+1]);
         }
         
         return ans;
