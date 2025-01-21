@@ -8,15 +8,14 @@ using namespace std;
 class Solution {
   public:
     /*You are required to complete below method */
-    
-    int solve(string s,int i,int j,vector<vector<int>>&dp){
-        
-        if(i>j){
-            return 0;
-        }
+    int solve(int i,int j,string &s,vector<vector<int>>&dp){
         
         if(i==j){
             return 1;
+        }
+        
+        if(i>j){
+            return 0;
         }
         
         if(dp[i][j]!=-1){
@@ -24,19 +23,23 @@ class Solution {
         }
         
         if(s[i] == s[j]){
-            return dp[i][j] = 1 + solve(s,i+1,j,dp) + solve(s,i,j-1,dp);
+            return dp[i][j] = 1 + solve(i+1,j,s,dp) + solve(i,j-1,s,dp);
         }
         
-        return dp[i][j] = solve(s,i+1,j,dp) + solve(s,i,j-1,dp) - solve(s,i+1,j-1,dp);
+        return dp[i][j] = solve(i+1,j,s,dp) + solve(i,j-1,s,dp) - solve(i+1,j-1,s,dp);
+        
     }
     
     int countPS(string &s) {
         // Your code here
+        
         int n=s.size();
+        
         vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
         
-        return solve(s,0,s.size()-1,dp);
+        return solve(0,n-1,s,dp);
         
+        return 0;
     }
 };
 
