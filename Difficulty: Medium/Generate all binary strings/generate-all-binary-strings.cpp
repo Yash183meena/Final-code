@@ -9,12 +9,13 @@ using namespace std;
 
 class Solution{
 public:
-
-    bool check(string str){
+    
+    vector<string>ans;
+    
+    int isSafe(string &s){
         
-        for(int i=1;i<str.size();i++){
-            
-            if(str[i]=='1' && str[i-1]=='1'){
+        for(int i=1;i<s.size();i++){
+            if(s[i]=='1' && s[i-1]=='1'){
                 return false;
             }
         }
@@ -22,32 +23,34 @@ public:
         return true;
     }
     
-    void solve(string str,int n,vector<string>&ans){
+    void generate(int idx,int num,string str){
         
-        if(n==0){
-           if(check(str)){
-               ans.push_back(str);
-           }
+        if(str.size()==num){
+            if(isSafe(str)){
+                ans.push_back(str);
+            }
             return;
         }
         
-        str.push_back('0');
-        solve(str,n-1,ans);
-        str.pop_back();
-        
-        str.push_back('1');
-        solve(str,n-1,ans);
-        str.pop_back();
-        
+       // for(int i=idx;i<num;i++){
+            
+            str.push_back('0');
+            generate(idx+1,num,str);
+            str.pop_back();
+            
+            str.push_back('1');
+            generate(idx+1,num,str);
+            str.pop_back();
+       // }
     }
     
     vector<string> generateBinaryStrings(int num){
         //Write your code
-        vector<string>ans;
-        solve("",num,ans);
         
+        generate(0,num,"");
         
         return ans;
+        
     }
 };
 
