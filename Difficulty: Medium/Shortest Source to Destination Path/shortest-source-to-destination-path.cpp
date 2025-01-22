@@ -11,11 +11,12 @@ class Solution {
   public:
     int shortestDistance(int N, int M, vector<vector<int>> A, int X, int Y) {
         // code here
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<>>pq;
-        pq.push({0,{0,0}});
-        
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,
+        greater<>>pq;
         
         vector<vector<bool>>visited(N,vector<bool>(M,false));
+        
+        pq.push({0,{0,0}});
         visited[0][0]=true;
         
         if(A[0][0]==0){
@@ -24,30 +25,28 @@ class Solution {
         
         while(!pq.empty()){
             
-            int cost=pq.top().first;
+            int steps = pq.top().first;
             
-            int x = pq.top().second.first;
+            int x=pq.top().second.first;
             int y=pq.top().second.second;
-            
             pq.pop();
             
             if(x==X && y==Y){
-                return cost;
+                return steps;
             }
             
-            int delrow[]={0,0,1,-1};
-            int delcol[]={1,-1,0,0};
+            int delrow[]={-1,1,0,0};
+            int delcol[]={0,0,-1,1};
             
             for(int i=0;i<4;i++){
                 
-                int newrow = x+delrow[i];
-                int newcol= y+delcol[i];
+                int newrow = delrow[i] + x;
+                int newcol = delcol[i] + y;
                 
-                if(newrow<N && newcol<M && newrow>=0 && newcol>=0 && !visited[newrow][newcol] &&
-                 A[newrow][newcol] == 1){
-                    
-                    visited[newrow][newcol] = true;
-                    pq.push({cost+1,{newrow,newcol}});
+                if(newrow<N && newrow>=0 && newcol<M && newcol>=0 && 
+                !visited[newrow][newcol] && A[newrow][newcol]==1){
+                    visited[newrow][newcol]=true;
+                    pq.push({steps+1,{newrow,newcol}});
                 }
             }
         }
@@ -73,4 +72,4 @@ int main() {
 cout << "~" << "\n";
 }
 }
-// } Driver Code Ends
+// } Driver Code Endshttps://media.geeksforgeeks.org/img-practice/chatIcon-1653561581.svg
