@@ -13,10 +13,9 @@ class Solution {
     int longestKSubstr(string &s, int k) {
         // your code here
         
-        map<char,int>hash;
-        
         int left=0,right=0;
-        int ans=-1;
+        map<char,int>hash;
+        int len=INT_MIN;
         
         for(right=0;right<s.size();right++){
             
@@ -26,7 +25,7 @@ class Solution {
                 
                 hash[s[left]]--;
                 
-                if(hash[s[left]]==0){
+                if(hash[s[left]] == 0){
                     hash.erase(s[left]);
                 }
                 
@@ -34,12 +33,11 @@ class Solution {
             }
             
             if(hash.size()==k){
-                ans=max(right-left+1,ans);
+                len=max(len,right-left+1);
             }
         }
         
-        return ans;
-        
+        return  len==INT_MIN?-1:len;
     }
 };
 
