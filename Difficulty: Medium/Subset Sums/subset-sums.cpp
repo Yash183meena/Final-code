@@ -6,44 +6,46 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-  
-    void solve(vector<int>&nums,vector<int>&vec,set<vector<int>>&st,int idx,vector<vector<int>>&stk){
+    void solve(int idx,vector<int>& arr,vector<vector<int>>&sets,vector<int>vec){
         
-        if(idx>=nums.size()){
+        if(idx>=arr.size()){
             return;
         }
         
-        for(int i=idx;i<nums.size();i++){
+        for(int i=idx;i<arr.size();i++){
             
-            vec.push_back(nums[i]);
+            vec.push_back(arr[i]);
+            sets.push_back(vec);
             
-            solve(nums,vec,st,i+1,stk);
-            st.insert(vec);
-            stk.push_back(vec);
+            solve(i+1,arr,sets,vec);
             
             vec.pop_back();
         }
     }
-    
-    
     vector<int> subsetSums(vector<int>& arr) {
         // code here
+        vector<vector<int>>sets;
         vector<int>vec;
-        vector<vector<int>>stk;
-        set<vector<int>>st;
         
-        solve(arr,vec,st,0,stk);
+        solve(0,arr,sets,vec);
+        vec.clear();
+        vec.push_back(0);
         
-        vector<int>ans;
-        ans.push_back(0);
-        
-        for(auto li:stk){
-            int sum=accumulate(li.begin(),li.end(),0);
-            ans.push_back(sum);
+        for(auto li : sets){
+            int sum=0;
+            for(auto ele :li){
+                sum+=ele;
+            }
+            vec.push_back(sum);
         }
         
-        return ans;
+        sort(begin(vec),end(vec));
         
+        for(auto ele:vec){
+            cout<<ele<<" ";
+        }
+        
+        return {};
     }
 };
 
