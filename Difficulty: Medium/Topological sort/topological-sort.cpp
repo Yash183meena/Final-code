@@ -7,42 +7,38 @@ using namespace std;
 class Solution {
   public:
     // Function to return list containing vertices in Topological order.
+    void dfs(int node,vector<vector<int>>& adj,stack<int>&stk,vector<bool>&visited){
+        
+        visited[node]=true;
+        
+        for(auto newnode : adj[node]){
+            if(!visited[newnode]){
+                dfs(newnode,adj,stk,visited);
+            }
+        }
+        
+        stk.push(node);
+    }
+    
     vector<int> topologicalSort(vector<vector<int>>& adj) {
         // Your code here
+        int V=adj.size();
+        vector<bool>visited(V,false);
+        stack<int>stk;
+        vector<int>topo;
         
-        int n=adj.size();
-        vector<int>indegre(n),vec;
-        queue<int>que;
-        
-        for(int i=0;i<n;i++){
-            for(auto node: adj[i]){
-                indegre[node]++;
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+                dfs(i,adj,stk,visited);
             }
         }
         
-        for(int i=0;i<n;i++){
-            if(indegre[i]==0){
-                que.push(i);
-            }
+        while(!stk.empty()){
+            topo.push_back(stk.top());
+            stk.pop();
         }
         
-        while(!que.empty()){
-            
-            int node=que.front();
-            vec.push_back(node);
-            que.pop();
-            
-            for(auto newnode : adj[node]){
-                
-                indegre[newnode]--;
-                
-                if(indegre[newnode]==0){
-                    que.push(newnode);
-                }
-            }
-        }
-        
-        return vec;
+        return topo;
     }
 };
 
@@ -77,7 +73,7 @@ int main() {
     cin >> T;
     while (T--) {
         int N, E;
-        cin >> E >> N;
+        cin >> N >> E;
         int u, v;
 
         vector<vector<int>> adj(N);
