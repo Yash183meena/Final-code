@@ -7,56 +7,62 @@ using namespace std;
 class Solution {
   public:
   
-    void merge(vector<int>& arr,int left,int mid,int right){
+    void merge(vector<int>& arr, int l, int mid, int r){
         
-        int n1=mid-left+1;
-        int n2=right-mid;
+        vector<int>left;
+        vector<int>right;
         
-        vector<int>arr1,arr2;
-        
-        for(int i=0;i<n1;i++){
-            arr1.push_back(arr[left+i]);
+        for(int i=l;i<=mid;i++){
+            left.push_back(arr[i]);
         }
         
-        for(int j=0;j<n2;j++){
-            arr2.push_back(arr[mid+j+1]);
+        for(int i=mid+1;i<=r;i++){
+            right.push_back(arr[i]);
         }
         
-        int i=0,j=0,k=left;
+        int i=0,j=0;
         
-        while(i<n1 && j<n2){
-            if(arr1[i] > arr2[j]){
-                arr[k]=arr2[j];
+        int k=l;
+        
+        while(i<left.size() && j<right.size()){
+            
+            if(left[i] < right[j]){
+                arr[k] = left[i];
+                k++;
+                i++;
+            }
+            
+            else{
+                arr[k]=right[j];
                 k++;
                 j++;
             }
-            else if(arr1[i] <= arr2[j]){
-                arr[k]=arr1[i];
+        }
+        
+        if(i==left.size()){
+            while(j<right.size()){
+                arr[k]=right[j];
+                k++;
+                j++;
+            }
+        }
+        
+        else if(j==right.size()){
+            while(i<left.size()){
+                arr[k]=left[i];
+                k++;
                 i++;
-                k++;
-            }
-        }
-        
-        if(i==n1){
-            for(;j<n2;j++){
-                arr[k]=arr2[j];
-                k++;
-            }
-        }
-        
-        if(j==n2){
-            for(;i<n1;i++){
-                arr[k]=arr1[i];
-                k++;
             }
         }
     }
-    
+   
     void mergeSort(vector<int>& arr, int l, int r) {
         // code here
-        int mid=l+(r-l)/2;
+        
+        int mid=l + (r-l)/2;
         
         if(l<r){
+            
             mergeSort(arr,l,mid);
             mergeSort(arr,mid+1,r);
             merge(arr,l,mid,r);
