@@ -17,16 +17,15 @@ class Solution {
                 continue;
             }
             
-            if(!visited[newnode]){
-                isCyclic(newnode,adj,visited,node);
+            if(visited[newnode]){
+                return true;
             }
             
-            else{
+            else if(isCyclic(newnode,adj,visited,node)){
                 return true;
             }
         }
         
-        visited[node]=false;
         
         return false;
     }
@@ -37,14 +36,18 @@ class Solution {
         vector<bool>visited(v,false);
         
         for(int i=0;i<v;i++){
-            if(isCyclic(i,adj,visited,-1)){
+            if(!visited[i] ){
+                if(isCyclic(i,adj,visited,-1)){
                 return true;
+    
+                }
             }
         }
         
         return false;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
