@@ -8,7 +8,8 @@ class Solution {
   public:
     int solve(int i,int j,vector<vector<int>>& arr,vector<vector<int>>&dp){
         
-        if(i==arr.size()-1){
+        if(i == arr.size()-1){
+            
             return arr[i][j];
         }
         
@@ -16,29 +17,35 @@ class Solution {
             return dp[i][j];
         }
         
-        int a=INT_MIN;
+        int a=INT_MIN,b=INT_MIN,c=INT_MIN;
         
-        for(int col=0;col<3;col++){
-            if(col!=j && i+1<arr.size()){
-                a=max(a,arr[i][j] + solve(i+1,col,arr,dp));
-            }
+        if(j!=0){
+            a = arr[i][j] + solve(i+1,0,arr,dp);
         }
         
-        return dp[i][j]=a;
+        if(j!=1){
+            b = arr[i][j] + solve(i+1,1,arr,dp);
+        }
+        
+        if(j!=2){
+            c = arr[i][j] + solve(i+1,2,arr,dp);
+        }
+        
+        return dp[i][j] = max(a,max(b,c));
+        
     }
     
     int maximumPoints(vector<vector<int>>& arr) {
         // Code here
-        int score=INT_MIN;
+        int n=arr.size();
+        vector<vector<int>>dp(n+1,vector<int>(4,-1));
+        int ans=INT_MIN;
         
-        vector<vector<int>>dp(arr.size()+1,vector<int>(4,-1));
-        
-        for(int j=0;j<arr[0].size();j++){
-            score=max(score,solve(0,j,arr,dp));
+        for(int i=0;i<=2;i++){
+            ans=max(ans,solve(0,i,arr,dp));
         }
         
-        return score;
-    
+        return ans;
     }
 };
 
