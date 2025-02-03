@@ -9,25 +9,32 @@ using namespace std;
 
 class Solution {
   public:
-    int findSubArraySum(int k, vector<int> &arr) {
+    int countSubarrays(vector<int> &arr, int k) {
         // code here
         
-        map<int,int>mp;
-        int prefix=0,ans=0;
+        map<int,int>hash;
+        int n=arr.size();
+        int prefix=0,subarray=0;
         
-        for(int i=0;i<arr.size();i++){
+        
+        for(int i=0;i<n;i++){
             
-            prefix+=arr[i];
+            prefix+= arr[i];
             
             if(prefix==k){
-                ans++;
+                subarray++;
             }
             
-            ans+=mp[prefix-k];
-            mp[prefix]++;
+            if(hash.find(prefix-k)!=hash.end()){
+                subarray+=hash[prefix-k];
+            }
+            
+            hash[prefix]++;
+            
         }
         
-        return ans;
+        return subarray;
+    
     }
 };
 
@@ -52,7 +59,7 @@ int main() {
             arr.push_back(number);
         }
         Solution obj;
-        cout << obj.findSubArraySum(k, arr);
+        cout << obj.countSubarrays(arr, k);
         cout << endl;
         cout << "~"
              << "\n";
