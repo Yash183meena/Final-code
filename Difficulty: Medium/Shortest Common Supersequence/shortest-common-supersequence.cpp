@@ -11,14 +11,14 @@ using namespace std;
 class Solution {
   public:
     // Function to find length of shortest common supersequence of two strings.
-    int solve(string &s1, string &s2,int i,int j,vector<vector<int>>&dp){
+    int solve(int i,int j,string s1,string s2,vector<vector<int>>&dp){
         
-        if(i >=s1.size()){
+        if(i>=s1.size()){
             return s2.size()-j;
-        }    
+        }
         
-        if(j >= s2.size()){
-            return s1.size()-i;
+        if(j>=s2.size()){
+            return s1.size() -i;
         }
         
         if(dp[i][j]!=-1){
@@ -26,24 +26,18 @@ class Solution {
         }
         
         if(s1[i] == s2[j]){
-            return dp[i][j] = 1 + solve(s1,s2,i+1,j+1,dp);
+            return dp[i][j] = 1 + solve(i+1,j+1,s1,s2,dp);
         }
         
-        int taking_the_s1 = 1 + solve(s1,s2,i+1,j,dp);
+        return dp[i][j] = 1 + min(solve(i+1,j,s1,s2,dp),solve(i,j+1,s1,s2,dp));
         
-        int taking_the_s2 = 1 + solve(s1,s2,i,j+1,dp);
-        
-        return dp[i][j] = min(taking_the_s1,taking_the_s2);
     }
     
     int shortestCommonSupersequence(string &s1, string &s2) {
         // code here
+        vector<vector<int>>dp(s1.size()+1,vector<int>(s2.size(),-1));
         
-        int n=s1.size();
-        int m=s2.size();
-        
-        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
-        return solve(s1,s2,0,0,dp);
+        return  solve(0,0,s1,s2,dp);
     }
 };
 
