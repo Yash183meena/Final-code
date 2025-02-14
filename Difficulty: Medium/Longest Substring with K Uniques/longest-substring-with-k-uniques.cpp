@@ -13,11 +13,12 @@ class Solution {
     int longestKSubstr(string &s, int k) {
         // your code here
         
-        int left=0,right=0;
-        map<char,int>hash;
-        int len=INT_MIN;
+        //question of the sliding window
         
-        for(right=0;right<s.size();right++){
+        int left=0,window=-1;
+        map<char,int>hash;
+        
+        for(int right=0;right<s.size();right++){
             
             hash[s[right]]++;
             
@@ -25,7 +26,7 @@ class Solution {
                 
                 hash[s[left]]--;
                 
-                if(hash[s[left]] == 0){
+                if(hash[s[left]]==0){
                     hash.erase(s[left]);
                 }
                 
@@ -33,11 +34,12 @@ class Solution {
             }
             
             if(hash.size()==k){
-                len=max(len,right-left+1);
+                window=max(window,right-left+1);
             }
+            
         }
         
-        return  len==INT_MIN?-1:len;
+        return window;
     }
 };
 
