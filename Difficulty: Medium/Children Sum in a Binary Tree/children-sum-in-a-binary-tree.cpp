@@ -105,45 +105,35 @@ class Solution{
     public:
     //Function to check whether all nodes of a tree have the value 
     //equal to the sum of their child nodes.
-    
-    bool isVerify(Node* root){
-        
+    bool check(Node*root){
         if(!root){
             return true;
         }
         
-        //case1
-        if(root->left && root->right){
-            if(root->left->data + root->right->data!=root->data){
-                return false;
-            }
+        else if(!root->left && !root->right){
+            return true;
         }
         
-        //case2
-        else if(!root->left && root->right){
-            if(root->right->data!=root->data){
-                return false;
-            }
+        else if(!root->left && root->right && root->right->data!=root->data){
+            return false;
         }
         
-        //case3
-        else if(!root->right && root->left){
-            if(root->left->data!=root->data){
-                return false;
-            }
+        else if(!root->right && root->left && root->left->data!=root->data){
+            return false;
         }
         
-        int left_tree = isVerify(root->left);
-        int right_tree = isVerify(root->right);
+        else if(root->left && root->right &&
+        root->left->data + root->right->data!=root->data){
+            return false;
+        }
         
-        return left_tree && right_tree;
+        return check(root->left) and check(root->right);
     }
     
     int isSumProperty(Node *root)
     {
      // Add your code here
-     return isVerify(root);
-     
+     return check(root);
     }
 };
 
