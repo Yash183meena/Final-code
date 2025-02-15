@@ -133,7 +133,8 @@ struct Node
 
 class Solution {
   public:
-    void solve(Node*root,vector<int>&vec,vector<vector<int>>&paths){
+  
+    void solve(Node* root,vector<int>&vec,vector<vector<int>>&ans){
         
         if(!root){
             return;
@@ -141,29 +142,28 @@ class Solution {
         
         if(!root->left && !root->right){
             vec.push_back(root->data);
-            paths.push_back(vec);
+            ans.push_back(vec);
             vec.pop_back();
             return;
         }
         
-        //for left tree
         vec.push_back(root->data);
-        solve(root->left,vec,paths);
+        solve(root->left,vec,ans);
         vec.pop_back();
         
-        //for right tree
         vec.push_back(root->data);
-        solve(root->right,vec,paths);
+        solve(root->right,vec,ans);
         vec.pop_back();
     }
     
     vector<vector<int>> Paths(Node* root) {
         // code here
         vector<int>vec;
-        vector<vector<int>>paths;
-        solve(root,vec,paths);
+        vector<vector<int>>ans;
         
-        return paths;
+        solve(root,vec,ans);
+        
+        return ans;
     }
 };
 
