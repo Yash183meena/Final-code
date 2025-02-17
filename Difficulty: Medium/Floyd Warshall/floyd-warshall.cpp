@@ -12,7 +12,6 @@ class Solution {
   public:
     void shortestDistance(vector<vector<int>>& mat) {
         // Code here
-        
         int n=mat.size();
         
         for(int i=0;i<n;i++){
@@ -24,14 +23,12 @@ class Solution {
         }
         
         for(int k=0;k<n;k++){
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    
                     if(mat[i][k]!=INT_MAX && mat[k][j]!=INT_MAX){
                         
-                        if(mat[i][j] > mat[i][k] + mat[k][j]){
-                            mat[i][j]=mat[i][k]+mat[k][j];
-                        }
+                        mat[i][j]=min(mat[i][j],mat[i][k]+mat[k][j]);
                     }
                 }
             }
@@ -44,7 +41,6 @@ class Solution {
                 }
             }
         }
-        
         
     }
 };
