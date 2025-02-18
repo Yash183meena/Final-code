@@ -8,8 +8,6 @@ class Solution {
   public:
     bool isEven(int n) {
         // code here
-        
-        //binary of the odd 
         if(n&1==1){
             return false;
         }
