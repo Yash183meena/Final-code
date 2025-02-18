@@ -41,7 +41,6 @@ int main() {
 /*Complete the functions below*/
 int find(int par[], int x) {
     // add code here
-    
     if(par[x]==x){
         return x;
     }
@@ -55,5 +54,5 @@ void unionSet(int par[], int x, int z) {
     int parent_x = find(par,x);
     int parent_z = find(par,z);
     
-    par[parent_x] = parent_z;
-}
+    par[parent_x] = parent_z
+;}
