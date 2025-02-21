@@ -10,29 +10,28 @@ class Solution {
   public:
     double medianOf2(vector<int>& a, vector<int>& b) {
         // Your code goes here
+        int n=a.size(),m=b.size();
         
-        if(a.size() > b.size()){
+        if(n > m){
             return medianOf2(b,a);
         }
         
-        int n=a.size();
-        int m=b.size();
-        
-        //high hamesha chote array ka lenge
         int low=0,high=n;
         
-        while(low <= high){
+        while(low<=high){
             
-            int px = low + (high -low)/2;
-            int py = (m+n+1)/2 - px;
+            int px = low + (high-low)/2;
             
-            int x1 = px==0? INT_MIN : a[px-1];
-            int x2 = py==0? INT_MIN : b[py-1];
+            int py = (m+n+1)/2-px;
             
-            int x3 = px==n? INT_MAX : a[px];
-            int x4 = py==m? INT_MAX : b[py];
+            int x1 = px==0?INT_MIN:a[px-1];
+            int x2 = py==0?INT_MIN:b[py-1];
             
-            if(x1<=x4 && x2<=x3){
+            int x3 = px==n?INT_MAX:a[px];
+            int x4 = py==m?INT_MAX:b[py];
+            
+            
+            if( x1<=x4 && x2<=x3){
                 
                 if((m+n)%2==1){
                     return max(x1,x2);
@@ -41,15 +40,15 @@ class Solution {
                 return (max(x1,x2) + min(x3,x4))/2.0;
             }
             
-            if(x1 > x4){
-                high=px-1;
+            else if(x1 >= x4){
+                high = px-1;
             }
+            
             else{
                 low=px+1;
             }
         }
         
-        return -1;
     }
 };
 
