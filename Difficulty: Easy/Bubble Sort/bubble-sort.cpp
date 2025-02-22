@@ -10,16 +10,28 @@ using namespace std;
 class Solution {
   public:
     // Function to sort the array using bubble sort algorithm.
-    void bubbleSort(vector<int>& arr) {
-        // Your code here
-        int n=arr.size();
-        for(int i=0;i<n;i++){
-            for(int i=1;i<n;i++){
-                if(arr[i] < arr[i-1]){
-                    swap(arr[i-1],arr[i]);
-                }
+    void bubble(vector<int>&arr,int n){
+        
+        if(n==1){
+            return;
+        }
+        
+        for(int i=1;i<n;i++){
+            if(arr[i-1] > arr[i]){
+                swap(arr[i-1],arr[i]);
             }
         }
+        
+        bubble(arr,n-1);
+    }
+    
+    void bubbleSort(vector<int>& arr) {
+        // Your code here
+        
+        // in the bubble sort largest element in the 1st pass
+        // goes to the last index
+        int n=arr.size();
+        bubble(arr,n);
     }
 };
 
