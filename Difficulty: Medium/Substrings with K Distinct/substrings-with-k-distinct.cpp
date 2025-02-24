@@ -11,38 +11,38 @@ using namespace std;
 class Solution {
   public:
   
-    int solve(string& s, int k){
+    int function(string& s, int k){
         
-        int at_most_k = 0;
+        int substrings=0;
+        
+        int left=0,right;
         map<char,int>hash;
-        int i=0;
         
-        for(int j=0;j<s.size();j++){
+        for(right=0;right<s.size();right++){
             
-            hash[s[j]]++;
+            hash[s[right]]++;
             
-            //for safe condition
-            while(hash.size()>k){
-                hash[s[i]]--;
+            while(hash.size() > k){
                 
-                if(hash[s[i]]==0){
-                    hash.erase(s[i]);
+                hash[s[left]]--;
+                
+                if(hash[s[left]]==0){
+                    hash.erase(s[left]);
                 }
                 
-                i++;
+                left++;
             }
             
-            at_most_k+=j-i+1;
+            substrings+=right-left+1;
         }
         
-        return at_most_k;
+        return substrings;
     }
     
     int countSubstr(string& s, int k) {
         // code here.
-        map<char,int>hash;
         
-        return solve(s,k) - solve(s,k-1);
+        return function(s,k)-function(s,k-1);
     }
 };
 
