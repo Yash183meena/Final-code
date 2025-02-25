@@ -11,21 +11,22 @@ class Solution {
   public:
     int findKRotation(vector<int> &arr) {
         // Code Here
-        int low=0,high=arr.size()-1,mid,mini=-1;
-
+        
+        int low=0,high=arr.size()-1,mid;
+        
         while(low <= high){
             
             mid = low + (high - low)/2;
-
-            if( arr[high] > arr[mid]){
+            
+            if( arr[mid] < arr[high]){
                 high=mid;
             }
-
+            
             else{
                 low=mid+1;
             }
         }
-
+        
         return mid;
     }
 };
