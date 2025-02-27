@@ -81,6 +81,7 @@ bool verify(Node* head)
 
 
 // } Driver Code Ends
+
 /*
 struct Node
 {
@@ -104,44 +105,30 @@ public:
     Node * removeDuplicates(struct Node *head)
     {
         // Your code here
-        unordered_map<int,bool>check;
-        queue<int>que;
+        struct Node*temp=head,*p=nullptr;
         
-        struct Node*ptr=head,*newhead=nullptr;
-        
-        while(ptr){
+        while(temp){
             
-            if(!check[ptr->data]){
-                que.push(ptr->data);
-                check[ptr->data]=true;
-            }
-            
-            ptr=ptr->next;
-        }
-        
-        
-        while(!que.empty()){
-               
-            int x=que.front();
-            que.pop();
-               
-            if(newhead==nullptr){
-               newhead=new Node(x);
-               ptr=newhead;
+            if(p && p->data == temp->data){
+                temp=temp->next;
+                continue;
             }
             
             else{
-                struct Node*newnode;
-                newnode=new Node(x);
-                ptr->next = newnode;
-                newnode->prev=ptr;
-                ptr=ptr->next;
+                if(p){
+                    p->next=temp;
+                }
+                temp->prev=p;
+                p=temp;
+                temp=temp->next;
+                p->next=nullptr;
             }
         }
         
-        return newhead;
+        return head;
     }
 };
+
 
 //{ Driver Code Starts.
 
