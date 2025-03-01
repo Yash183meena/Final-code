@@ -4,78 +4,71 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function template for C++
 
 class Solution {
   public:
-    
-    void solve(vector<vector<int>> &mat,vector<vector<bool>>&visited,int row,int col,int n,
-    vector<char>&path,set<vector<char>>&paths){
+  
+    void solve(int row,int col,int n,vector<vector<int>> &mat,vector<vector<bool>>&visited,string str,
+        vector<string>&vec){
         
-        if(row == n-1 && col == n-1){
-            paths.insert(path);
+        if(row == n-1 && col==n-1){
+            vec.push_back(str);
             return;
         }
         
-        if(row+1<n && !visited[row+1][col] && mat[row+1][col]==1 ){
+        if(col+1<n && !visited[row][col+1] && mat[row][col+1]==1){
+            
+            visited[row][col+1]=true;
+            str.push_back('R');
+            solve(row,col+1,n,mat,visited,str,vec);
+            str.pop_back();
+            visited[row][col+1]=false;
+            
+        }
+        
+        if(col-1>=0 && !visited[row][col-1] && mat[row][col-1]==1){
+            
+            str.push_back('L');
+            visited[row][col-1]=true;
+            solve(row,col-1,n,mat,visited,str,vec);
+            str.pop_back();
+            visited[row][col-1]=false;
+        }
+        
+        if(row+1<n && !visited[row+1][col] && mat[row+1][col]==1){
+            str.push_back('D');
             visited[row+1][col]=true;
-            path.push_back('D');
-            solve(mat,visited,row+1,col,n,path,paths);
-            path.pop_back();
+            solve(row+1,col,n,mat,visited,str,vec);
+            str.pop_back();
             visited[row+1][col]=false;
         }
         
         if(row-1>=0 && !visited[row-1][col] && mat[row-1][col]==1){
-            visited[row-1][col]=true;
-            path.push_back('U');
-            solve(mat,visited,row-1,col,n,path,paths);
-            path.pop_back();
+            str.push_back('U');
+            visited[row-1][col]=true;;
+            solve(row-1,col,n,mat,visited,str,vec);
+            str.pop_back();
             visited[row-1][col]=false;
         }
         
-        if(col-1>=0 && !visited[row][col-1] && mat[row][col-1]==1){
-            visited[row][col-1]=true;
-            path.push_back('L');
-            solve(mat,visited,row,col-1,n,path,paths);
-            path.pop_back();
-            visited[row][col-1]=false;
-        }
-        
-        if(col+1<n && !visited[row][col+1] && mat[row][col+1]==1){
-            visited[row][col+1]=true;
-            path.push_back('R');
-            solve(mat,visited,row,col+1,n,path,paths);
-            path.pop_back();
-            visited[row][col+1]=false;
-        }
     }
     
     vector<string> findPath(vector<vector<int>> &mat) {
         // code here
         
-        int n = mat.size();
-        vector<vector<bool>>visited(n+1,vector<bool>(n+1,false));
-        
-        vector<char>path;
-        set<vector<char>>paths;
-        
-        visited[0][0]=true;
-        solve(mat,visited,0,0,n,path,paths);
-        
+        int n=mat.size();
+        vector<vector<bool>>visited(n,vector<bool>(n,false));
         vector<string>vec;
-        
-        for(auto pths:paths){
-            string str="";
-            for(auto ele:pths){
-                str.push_back(ele);
-            }
-            vec.push_back(str);
-        }
-        
+        string str="";
+        visited[0][0]=true;
+        solve(0,0,n,mat,visited,str,vec);
         
         return vec;
     }
 };
+
 
 
 //{ Driver Code Starts.
