@@ -6,33 +6,42 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 //User function Template for C++
 
 class Solution{
 public:
-
-    void solve(stack<int> &St,vector<int>&vec){
+    //inset element in the bottom of the stack
+    void insert_at_bottom(stack<int>&stk,int element){
+        
+        if(stk.size() == 0){
+            stk.push(element);
+        }
+        
+        else{
+            
+            int a = stk.top();
+            stk.pop();
+            insert_at_bottom(stk,element);
+            stk.push(a);
+            
+        }
+    }
+    
+    void Reverse(stack<int> &St){
         
         if(St.empty()){
             return;
         }
         
-        vec.push_back(St.top());
+        int element = St.top();
         St.pop();
+        Reverse(St);
         
-        solve(St,vec);
-        
-        St.push(*vec.begin());
-        vec.erase(vec.begin());
-        
-    }
-    
-    void Reverse(stack<int> &St){
-        
-        vector<int>vec;
-        solve(St,vec);
+        insert_at_bottom(St,element);
     }
 };
+
 
 //{ Driver Code Starts.
 
