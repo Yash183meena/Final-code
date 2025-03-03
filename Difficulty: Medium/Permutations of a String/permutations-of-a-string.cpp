@@ -4,35 +4,39 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    void solve(string &s,int idx,set<string>&vec){
+    void solve(int idx,string str,set<string>&st){
         
-        if(idx>=s.size()){
-            vec.insert(s);
+        if(idx >= str.size()){
+            st.insert(str);
             return;
         }
         
-        for(int i=idx;i<s.size();i++){
-            swap(s[idx],s[i]);
-            solve(s,idx+1,vec);
-            swap(s[idx],s[i]);
+        for(int i=idx;i<str.size();i++){
+            
+            swap(str[i],str[idx]);
+            solve(idx+1,str,st);
+            swap(str[i],str[idx]);
         }
     }
+    
     vector<string> findPermutation(string &s) {
         // Code here there
+        set<string>st;
+        vector<string>vec;
         
-        set<string>vec;
-        vector<string>ans;
-        solve(s,0,vec);
-        for(auto str : vec){
-            ans.push_back(str);
+        solve(0,s,st);
+        
+        for(auto str : st){
+          vec.push_back(str);
         }
         
-        
-        return ans;
+        return vec;
     }
 };
+
 
 
 //{ Driver Code Starts.
