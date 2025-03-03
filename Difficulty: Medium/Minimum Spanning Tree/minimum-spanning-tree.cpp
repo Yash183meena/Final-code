@@ -4,41 +4,43 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     // Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[]) {
         // code here
-        
         int mst=0;
-        
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>>pq;
-        vector<bool>visited(V,false);
-        
         pq.push({0,0});
         
+        vector<bool>visited(V,false);
         
         while(!pq.empty()){
             
             int node=pq.top().second;
-            int weight=pq.top().first;
+            int wt=pq.top().first;
+            
             pq.pop();
             
             if(visited[node]){
                 continue;
             }
             
-            mst+=weight;
             visited[node]=true;
+            mst+=wt;
             
-            for(auto newnode : adj[node]){
+            for(auto newnode_pair : adj[node]){
                 
-                if(visited[newnode[0]]){
+                int newnode = newnode_pair[0];
+                int weight = newnode_pair[1];
+                
+                if(visited[newnode]){
                     continue;
                 }
                 
                 else{
-                    pq.push({newnode[1],newnode[0]});
+                    pq.push({weight,newnode});
                 }
             }
         }
@@ -46,6 +48,7 @@ class Solution {
         return mst;
     }
 };
+
 
 //{ Driver Code Starts.
 
