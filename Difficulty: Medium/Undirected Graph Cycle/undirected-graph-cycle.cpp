@@ -4,43 +4,45 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     // Function to detect cycle in an undirected graph.
-    bool isCyclic(int node,vector<vector<int>>& adj,vector<bool>&visited,int parent){
+    bool isCyclic(int node,vector<vector<int>>& adj,vector<int>&visited,int parent){
+        
         
         visited[node]=true;
         
         for(auto newnode : adj[node]){
             
-            if(newnode == parent){
-                continue;
-            }
-            
             if(visited[newnode]){
-                return true;
-            }
-            
-            else if(isCyclic(newnode,adj,visited,node)){
-                return true;
-            }
+                
+                if(newnode == parent){
+                    continue;
+                }
+                
+                else{
+                    return true;
+                }
         }
         
+        else if(isCyclic(newnode,adj,visited,node)){
+            return true;
+        }
         
-        return false;
+    }
+    
+    return false;
     }
     
     bool isCycle(vector<vector<int>>& adj) {
         // Code here
-        int v=adj.size();
-        vector<bool>visited(v,false);
+        int n = adj.size();
+        vector<int>visited(n,false);
         
-        for(int i=0;i<v;i++){
-            if(!visited[i] ){
-                if(isCyclic(i,adj,visited,-1)){
+        for(int i=0;i<n;i++){
+            if(!visited[i] && isCyclic(i,adj,visited,-1)){
                 return true;
-    
-                }
             }
         }
         
