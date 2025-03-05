@@ -11,15 +11,15 @@ using namespace std;
 class Solution {
   public:
     // Function to sort the array using bubble sort algorithm.
+    
     void bubble(vector<int>& arr,int n){
         
-        if(n<=0){
+        if(n==0){
             return;
         }
         
         for(int i=1;i<n;i++){
-            
-            if(arr[i] < arr[i-1]){
+            if(arr[i-1] > arr[i]){
                 swap(arr[i],arr[i-1]);
             }
         }
@@ -27,13 +27,12 @@ class Solution {
         bubble(arr,n-1);
     }
     
-    
     void bubbleSort(vector<int>& arr) {
         // Your code here
         
         int n=arr.size();
         
-        bubble(arr,n);
+        return bubble(arr,n);
     }
 };
 
