@@ -6,20 +6,25 @@ using namespace std;
 // } Driver Code Ends
 
 
+
 class Solution {
   public:
     // Function to find pair with maximum sum
     int pairWithMaxSum(vector<int> &arr) {
         // Your code goes here
-        int ans=0,n=arr.size();
         
-        for(int i=0;i<n-1;i++){
-            ans=max(ans,arr[i]+arr[i+1]);
+        int ans=0;
+        
+        for(int i=1;i<arr.size();i++){
+            if( arr[i-1] + arr[i] > ans){
+                ans=arr[i-1] + arr[i];
+            }
         }
         
         return ans;
     }
 };
+
 
 
 //{ Driver Code Starts.
