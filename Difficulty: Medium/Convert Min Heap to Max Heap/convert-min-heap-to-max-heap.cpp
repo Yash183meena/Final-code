@@ -5,40 +5,48 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 //User function Template for C++
 
 class Solution{
 public:
-
-    void heapify(vector<int> &arr, int N,int idx){
-       
-       int parent=idx;
-       int left=2*idx+1;
-       int right=2*idx+2;
-       
-        if(left<N && arr[left] > arr[parent]){
-            parent=left;
+    void heapify(int idx,vector<int> &arr, int N){
+        
+        int left = 2*idx+1;
+        int right = 2*idx + 2;
+        int largest = idx;
+        
+        if(left<N && arr[left] > arr[largest]){
+            largest=left;
         }
         
-        if(right<N && arr[right]> arr[parent]){
-            parent=right;
+        if(right<N && arr[right] > arr[largest]){
+            largest=right;
         }
         
-        if(parent!=idx){
-            swap(arr[idx],arr[parent]);
-            heapify(arr,N,parent);
-        }
-        
-    }
-   
-    void convertMinToMaxHeap(vector<int> &arr, int N){
-      
-        for(int idx=N/2-1;idx>=0;idx--){
-            heapify(arr,N,idx);
+        if(idx!=largest){
+            swap(arr[idx],arr[largest]);
+            
+            heapify(largest,arr,N);
         }
     }
     
+    void BuildHeap(vector<int>&arr,int N){
+        
+        
+        for(int i=N/2-1;i>=0;i--){
+            heapify(i,arr,N);
+        }
+        
+    }
+    
+    void convertMinToMaxHeap(vector<int> &arr, int N){
+           
+           BuildHeap(arr,N);
+    }
+    
 };
+
 
 
 //{ Driver Code Starts.
