@@ -48,39 +48,30 @@ struct Node {
 class Solution {
   public:
     // Function to find the length of a loop in the linked list.
-    
-    //Step1:-->loop detection using the tortoise and hare approach
-    int isLoop(Node*head){
+    int countNodesinLoop(Node *head) {
+        // Code here
+        Node*slow=head,*fast=head;
         
-        Node*slow=head,*fast=head,*temp;
-        int count;
-        
-        while( slow && fast && fast->next){
+        while(fast && slow && fast->next){
             
             slow=slow->next;
             fast=fast->next->next;
             
-            if(slow == fast){
+            if(slow==fast){
                 
-                temp=slow;
-                count=1;
+                int len=1;
                 
-                while(slow && slow->next!=temp){
-                    count++;
-                    slow=slow->next;
+                fast=fast->next;
+                while(fast!=slow){
+                    fast=fast->next;
+                    len++;
                 }
                 
-                return count;
+                return len;
             }
         }
         
         return 0;
-    }
-    
-    int countNodesinLoop(Node *head) {
-        // Code here
-        
-        return isLoop(head);
     }
 };
 
