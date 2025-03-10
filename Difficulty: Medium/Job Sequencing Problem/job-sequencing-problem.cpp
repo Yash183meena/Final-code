@@ -7,62 +7,57 @@ using namespace std;
 
 // } Driver Code Ends
 
+
 class Solution {
   public:
-    
-    static bool cmp(pair<int,pair<int,int>>&a , pair<int,pair<int,int>>&b){
-        
-        return a.second.second > b.second.second;
-    }
-    
     vector<int> JobSequencing(vector<int> &id, vector<int> &deadline,
-                       vector<int> &profit) {
+                              vector<int> &profit) {
         // code here
-        
-        int j=0,p=0;
-        
-        int maxTime=*max_element(deadline.begin(),deadline.end());
+        int n=id.size(),total=0,jobs_done=0;
         vector<pair<int,pair<int,int>>>jobs;
         
-        vector<int>jobSchedule(maxTime,-1);
-        
         for(int i=0;i<id.size();i++){
-            jobs.push_back({id[i],{deadline[i],profit[i]}});
+            jobs.push_back({profit[i],{deadline[i],id[i]}});
         }
         
-        sort(jobs.begin(),jobs.end(),cmp);
         
-        for(int i=0;i<id.size();i++){
+        sort(jobs.begin(),jobs.end());
+        reverse(jobs.begin(),jobs.end());
+        
+        int max_time=*max_element(deadline.begin(),deadline.end());
+        vector<int>fulfill(max_time+1,-1);
+        
+        for(int i=0;i<n;i++){
             
-            int job_id = jobs[i].first;
-            int job_deadline =jobs[i].second.first;
-            int job_profit=jobs[i].second.second;
+            int pro=jobs[i].first;
+            int dead=jobs[i].second.first;
+            int ids=jobs[i].second.second;
             
-            if(jobSchedule[job_deadline-1]==-1){
-                j++;
-                p+=job_profit;
-                jobSchedule[job_deadline-1]=job_id;
+            if(fulfill[dead]==-1){
+                fulfill[dead]=id[i];
+                jobs_done++;
+                total+=pro;
             }
             
             else{
+                int z=dead;
                 
-                while(job_deadline-1 >= 0){
-                    
-                    if(jobSchedule[job_deadline-1]==-1){
-                        j++;
-                        p+=job_profit;
-                        jobSchedule[job_deadline-1]=job_id;
-                        break;
-                    }
-                    
-                    job_deadline--;
+                while(z>=1 && fulfill[z]!=-1){
+                    z--;
+                }
+                
+                if(z > 0){
+                    fulfill[z]=id[i];
+                    jobs_done++;
+                    total+=pro;
                 }
             }
         }
         
-        return {j,p};
+        return {jobs_done,total};
     }
 };
+
 
 
 //{ Driver Code Starts.
