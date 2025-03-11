@@ -4,27 +4,30 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     int nthRoot(int n, int m) {
         // Code here.
         
-        int low = 0,high=m;
+        int low=0,high=m;
+        int mid;
         
-        while( low<= high){
+        while(low <= high){
             
-            int mid = low + (high - low)/2;
+            int r=1;
             
-            int p=1;
-            for(int i=1;i<=n;i++){
-                p*=mid;
+            mid = low + (high - low)/2;
+            
+            for(int i=0;i<n;i++){
+                r*=mid;
             }
             
-            if(p == m){
-                return  mid;
+            if(r == m){
+                return mid;
             }
             
-            else if( p < m){
+            else if(r < m){
                 low=mid+1;
             }
             
@@ -36,6 +39,7 @@ class Solution {
         return -1;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
