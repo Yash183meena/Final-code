@@ -6,21 +6,22 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     int countFreq(vector<int>& arr, int target) {
         // code here
-        int low=0,high=arr.size()-1;
-        int mid,count=0;
-        bool flag=false;
         
-        while(low<=high){
+        int mid,idx=-1,count=0;
+        int low=0,high=arr.size()-1;
+        
+        while(low <= high){
             
             mid = low + (high - low)/2;
             
             if(arr[mid] == target){
-                flag=true;
-                count=1;
+                idx=mid;
+                count++;
                 break;
             }
             
@@ -28,28 +29,31 @@ class Solution {
                 high=mid-1;
             }
             
-            else{
+            else if(arr[mid] < target){
                 low=mid+1;
             }
         }
-        if(!flag){
+        
+        if(idx==-1){
             return 0;
         }
-        low=mid-1,high=mid+1;
-        while(low>=0 && arr[mid]==arr[low]){
+        
+        int i=idx-1,j=idx+1;
+        
+        while(i>=0 && arr[i]==target){
             count++;
-            low--;
+            i--;
         }
         
-        while(high<arr.size() && arr[mid]==arr[high]){
-            high++;
+        while(j<arr.size() && arr[j]==target){
+            j++;
             count++;
         }
         
         return count;
     }
-    
 };
+
 
 
 //{ Driver Code Starts.
