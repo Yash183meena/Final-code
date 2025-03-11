@@ -10,11 +10,24 @@ class Solution {
     // Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[]) {
         // code here
-        int mst=0;
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>>pq;
-        pq.push({0,0});
+        map<int,vector<pair<int,int>>>graph;
+        
+        for(int i=0;i<V;i++){
+            
+            for(auto edge : adj[i]){
+                
+                int x=edge[0];
+                int wt=edge[1];
+                
+                graph[i].push_back({x,wt});
+            }
+        }
         
         vector<bool>visited(V,false);
+        
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>>pq;
+        pq.push({0,0});
+        int mst=0;
         
         while(!pq.empty()){
             
@@ -23,24 +36,26 @@ class Solution {
             
             pq.pop();
             
+            
             if(visited[node]){
                 continue;
             }
             
-            visited[node]=true;
             mst+=wt;
+            visited[node]=true;
             
-            for(auto newnode_pair : adj[node]){
+            for(auto newnode_pair : graph[node]){
                 
-                int newnode = newnode_pair[0];
-                int weight = newnode_pair[1];
+                int newnode=newnode_pair.first;
+                int cost=newnode_pair.second;
                 
                 if(visited[newnode]){
                     continue;
                 }
                 
                 else{
-                    pq.push({weight,newnode});
+                    
+                    pq.push({cost,newnode});
                 }
             }
         }
