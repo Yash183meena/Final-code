@@ -4,45 +4,51 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function Template for C++
 
 class Solution {
   public:
     int findElement(vector<int> &arr) {
         // Code here
-        int min=INT_MAX,max=INT_MIN,n=arr.size();
-        vector<int>greater(n),smaller(n);
-    
-        for(int i=0;i<n;i++){
-            if(max<arr[i]){
-                max=arr[i];
-                greater[i]=-1;
-            }
-            else{
-                greater[i]=max;
-            }
-        }
+        int n=arr.size();
+        int left_max=INT_MIN,right_min=INT_MAX;
+        vector<int>left(n);
+        vector<int>right(n);
         
         for(int i=n-1;i>=0;i--){
-            if(arr[i] < min){
-                smaller[i]=-1;
-                min=arr[i];
+            
+            if(arr[i] < right_min){
+                right[i]=-1;
+                right_min=arr[i];
             }
             else{
-                smaller[i]=min;
+                right[i]=right_min;
             }
         }
         
+        for(int i=0;i<n;i++){
+            
+            if(arr[i] > left_max){
+                left[i]=-1;
+                left_max=arr[i];
+            }
+            else{
+                left[i]=left_max;
+            }
+        }
         
         for(int i=1;i<n-1;i++){
-            if(smaller[i]==-1 && greater[i]==-1){
-                return arr[i];
+            if(left[i] ==-1 && right[i]==-1){
+              return arr[i];
             }
         }
         
         return -1;
+        
     }
 };
+
 
 //{ Driver Code Starts.
 
