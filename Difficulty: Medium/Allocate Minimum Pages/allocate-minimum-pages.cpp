@@ -6,24 +6,28 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    
-    bool isSafe(vector<int> &arr, int k,int mid){
+    bool check(vector<int> &arr, int k,int mid){
         
-        int k1=1,sum=0;
+        int students=1,pages=0;
         
         for(int i=0;i<arr.size();i++){
-            if(sum + arr[i] > mid ){
+            
+            if(arr[i]+pages>mid){
                 
-                k1++;
-                if( k1 > k){
+                students++;
+                
+                if(students>k){
                     return false;
                 }
-                sum=arr[i];
+            
+                pages=arr[i];
             }
+            
             else{
-                sum+=arr[i];
+                pages+=arr[i];
             }
         }
         
@@ -32,23 +36,23 @@ class Solution {
     
     int findPages(vector<int> &arr, int k) {
         // code here
+       // int books=arr.size();
         int books=arr.size();
-        int min_pages=INT_MAX;
-        
-        int low=*max_element(arr.begin(),arr.end());
-        int high=accumulate(arr.begin(),arr.end(),0);
-        
-        if( books < k){
-            return -1;
+       
+        if(books<k){
+           return -1;
         }
+        int ans=-1,mid,high=0;
+        int low=*max_element(arr.begin(),arr.end());
+        high=accumulate(arr.begin(),arr.end(),0);
         
-        while(low<=high){
+        while(low <= high){
             
-            int mid = low + (high-low)/2;
+            mid = low + ( high - low )/2;
             
-            if(isSafe(arr,k,mid)){
+            if(check(arr,k,mid)){
+                ans=mid;
                 high=mid-1;
-                min_pages=mid;
             }
             
             else{
@@ -56,10 +60,10 @@ class Solution {
             }
         }
         
-        return min_pages;
+        return ans;
     }
-    
 };
+
 
 //{ Driver Code Starts.
 
