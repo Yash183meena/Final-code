@@ -105,24 +105,24 @@ public:
     Node * removeDuplicates(struct Node *head)
     {
         // Your code here
-        struct Node*temp=head,*p=nullptr;
+        if(!head || !head->next){
+            return head;
+        }
+        
+        Node*temp=head->next,*pre=head;
+        pre->next=NULL;
         
         while(temp){
             
-            if(p && p->data == temp->data){
-                temp=temp->next;
-                continue;
+            if(temp->data!=pre->data){
+                
+                pre->next=temp;
+                temp->prev=pre;
+                pre=pre->next;
             }
             
-            else{
-                if(p){
-                    p->next=temp;
-                }
-                temp->prev=p;
-                p=temp;
-                temp=temp->next;
-                p->next=nullptr;
-            }
+            temp=temp->next;
+            pre->next=NULL;
         }
         
         return head;
