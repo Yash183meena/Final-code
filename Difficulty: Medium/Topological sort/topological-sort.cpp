@@ -4,6 +4,7 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     // Function to return list containing vertices in Topological order.
@@ -18,20 +19,23 @@ class Solution {
         }
         
         stk.push(node);
+        
     }
-    
     vector<int> topologicalSort(vector<vector<int>>& adj) {
         // Your code here
-        int V=adj.size();
-        vector<bool>visited(V,false);
-        stack<int>stk;
-        vector<int>topo;
         
-        for(int i=0;i<V;i++){
+        int n=adj.size();
+        vector<bool>visited(n,false);
+        stack<int>stk;
+        
+        for(int i=0;i<n;i++){
             if(!visited[i]){
                 dfs(i,adj,stk,visited);
             }
         }
+        
+        vector<int>topo;
+        
         
         while(!stk.empty()){
             topo.push_back(stk.top());
@@ -39,8 +43,11 @@ class Solution {
         }
         
         return topo;
+        
+        return {};
     }
 };
+
 
 //{ Driver Code Starts.
 
