@@ -6,17 +6,17 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     
     int solve(int idx,vector<int>& arr,int target,vector<vector<int>>&dp){
         
-        
-        if(target==0 && idx==arr.size()){
+        if(target == 0 && idx>=arr.size()){
             return 1;
         }
         
-        if(idx>=arr.size() || target<0){
+        else if(idx>=arr.size() || target<0){
             return 0;
         }
         
@@ -24,36 +24,49 @@ class Solution {
             return dp[idx][target];
         }
         
+        //take the element
         int take = solve(idx+1,arr,target-arr[idx],dp);
         
+        //not take that element
         int not_take = solve(idx+1,arr,target,dp);
         
-        return dp[idx][target] = (take + not_take);
+        return dp[idx][target] = take + not_take;
     }
     
     int countPartitions(vector<int>& arr, int d) {
         // Code here
+        int sum=0,n=arr.size();
         
-        // let sum of the first subarray = p
-        // let sum of the second subarray = q
-        int sum=0;
-        for(auto ele : arr){
+        for(auto ele:arr){
             sum+=ele;
         }
         
-        //p+q = sum
-        //p-q = d
+        int p,q;
         
-        int target = (sum+d)/2;
-        if((sum+d)%2==1){
+        //p + q = sum
+        //p - q =d;
+        
+        //p+q + p -q =sum + d
+        
+        //p = (sum + d)/2;
+        
+        //we have to find no of subsets with sum p
+        
+        if((sum+d)%2!=0){
             return 0;
         }
         
-        vector<vector<int>>dp(arr.size()+1,vector<int>(target+1,-1));
+        int target = (sum+d)/2;
+        
+       
+        
+        vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
         
         return solve(0,arr,target,dp);
+   
     }
 };
+
 
 //{ Driver Code Starts.
 
