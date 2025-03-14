@@ -79,6 +79,7 @@ Node *buildTree(string str) {
 
 
 // } Driver Code Ends
+
 // User function Template for C++
 
 /*
@@ -95,75 +96,91 @@ struct Node {
 */
 class Solution {
   public:
-     
-    void findParent(Node* root, int target,map<Node*,Node*>&parent,Node*&Burn_Node){
+    Node*Burn=NULL;
+    
+    void findParent(Node* root,map<Node*,Node*>&parent){
+        
+        if(!root){
+            return;
+        }
+        
+        if(root->left){
+            parent[root->left]=root;
+        }
+        
+        if(root->right){
+            parent[root->right]=root;
+        }
+        
+        findParent(root->left,parent);
+        findParent(root->right,parent);
+    }
+    
+    void findTarget(Node*root,int target){
         
         if(!root){
             return;
         }
         
         if(root->data == target){
-            Burn_Node=root;
+            Burn=root;
+            return;
         }
         
-        if(root->left){
-            parent[root->left]=root;
-            findParent(root->left,target,parent,Burn_Node);
-        }
+        findTarget(root->left,target);
         
-        if(root->right){
-            parent[root->right]=root;
-            findParent(root->right,target,parent,Burn_Node);
-        }
+        findTarget(root->right,target);
     }
     
     int minTime(Node* root, int target) {
         // code here
+        int burn_time=0;
         
-        int Burn_time=0;
-        Node*Burn_Node=NULL;
         map<Node*,Node*>parent;
-        map<Node*,bool>visited;
         
-        findParent(root,target,parent,Burn_Node);
+        findParent(root,parent);
+        findTarget(root,target);
+        
+        map<Node*,bool>burns;
         
         queue<Node*>que;
-        que.push(Burn_Node);
-        
-        visited[Burn_Node]=true;
+        que.push(Burn);
+    
+        burns[Burn]=true;
         
         while(!que.empty()){
             
             int size=que.size();
             
             for(int i=0;i<size;i++){
+                
                 Node*current=que.front();
-            que.pop();
-            
-            if(current->left && !visited[current->left]){
-                que.push(current->left);
-                visited[current->left]=true;
-            }
-            
-            if(current->right && !visited[current->right]){
-                que.push(current->right);
-                visited[current->right]=true;
-             
-            }
-            
-            if(parent.find(current)!=parent.end() && !visited[parent[current]]){
-                que.push(parent[current]);
-                visited[parent[current]]=true;
-            }
-            
+                que.pop();
+                
+                if(current->left!=NULL && !burns[current->left]){
+                    burns[current->left]=true;
+                    que.push(current->left);
+                }
+                
+                if(current->right!=NULL && !burns[current->right]){
+                    burns[current->right]=true;
+                    que.push(current->right);
+                }
+                
+                if(parent.find(current)!=parent.end() && !burns[parent[current]]){
+                    que.push(parent[current]);
+                    burns[parent[current]]=true;
+                }
             
             }
-            Burn_time++;
+    
+            burn_time++;
         }
         
-        return Burn_time-1;
+        return burn_time-1;
     }
 };
+
 
 //{ Driver Code Starts.
 
