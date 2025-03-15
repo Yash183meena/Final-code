@@ -9,18 +9,10 @@ using namespace std;
 
 class Solution {
   public:
-    
-    //To This Question we have 3 steps
-    
-    //step1:--->Take the entire array func(i,j)
-    //steps2:-->we have to take aall the combination of partion from which we get minimum
-        // take the partitions different different using the for loop
-    
-    //step3: --> Return the minimum 2
-    
-    int solve(int i,int j,vector<int> &arr,vector<vector<int>>&dp){
+  
+    int solve(vector<int> &arr,int i,int j,vector<vector<int>>&dp){
         
-        if( i == j ){
+        if(i==j){
             return 0;
         }
         
@@ -30,23 +22,25 @@ class Solution {
         
         int mini=INT_MAX;
         
-        //loop for partition
+        //partiotion of the matrixes
         for(int k=i;k<j;k++){
             
-            int multiplications = arr[i-1] * arr[k] * arr[j] + 
-                 solve(i,k,arr,dp) + solve(k+1,j,arr,dp);
-                 
-            mini=min(multiplications,mini);
+            int oper = arr[i-1] * arr[k] * arr[j] + 
+                solve(arr,i,k,dp) + solve(arr,k+1,j,dp);
+            
+            mini=min(mini,oper);
         }
         
-        return dp[i][j]=mini;
+        return dp[i][j] = mini;
     }
     
     int matrixMultiplication(vector<int> &arr) {
         // code here
+        
         int n=arr.size();
         vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
-        return solve(1,n-1,arr,dp);
+        
+        return solve(arr,1,n-1,dp);
     }
 };
 
