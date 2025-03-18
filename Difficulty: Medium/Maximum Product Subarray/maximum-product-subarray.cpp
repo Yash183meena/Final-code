@@ -5,42 +5,51 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function Template for C++
 class Solution {
   public:
     // Function to find maximum product subarray
-    int max(int a,int b){
-        return a>b;
-    }
-    
     int maxProduct(vector<int> &arr) {
         // Your Code Here
-        long long product=1;
+        
+        int product=1;
+        
         int ans=INT_MIN;
-        for(auto ele:arr){
-            product*=ele;
-
-            if(product>ans){
+        
+        for(int i=0;i<arr.size();i++){
+            
+            product*=arr[i];
+            
+            if(product > ans){
                 ans=product;
             }
+            
             if(product==0){
                 product=1;
             }
         }
+        
         product=1;
-        reverse(begin(arr),end(arr));
-        for(auto ele:arr){
-            product*=ele;
-            if(product>ans){
+        
+        for(int i=arr.size()-1;i>=0;i--){
+            
+            product*=arr[i];
+            
+            if(product > ans){
                 ans=product;
             }
+            
             if(product==0){
                 product=1;
             }
         }
+        
         return ans;
+        
     }
 };
+
 
 //{ Driver Code Starts.
 
