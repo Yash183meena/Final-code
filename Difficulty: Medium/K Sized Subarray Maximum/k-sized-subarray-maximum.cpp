@@ -4,43 +4,43 @@ using namespace std;
 
 
 // } Driver Code Ends
-// User function template for C++
 
 class Solution {
   public:
-    // Function to find maximum of each subarray of size k.
     vector<int> maxOfSubarrays(vector<int>& arr, int k) {
         // code here
         
-        //ds -->deque
-        
-        vector<int>window;
+        //using an deque data structure
         deque<int>deq;
+        vector<int>ans;
         
         for(int i=0;i<arr.size();i++){
             
-            //step1--> consider k window eleemnts
-            while(!deq.empty() && i-deq.front()>=k){
+            //step1:-->to check if the element outside window remove it
+            while(!deq.empty() && deq.front() <= i-k){
                 deq.pop_front();
             }
             
-            //step2-->pop if the last elements are less than current
-            while(!deq.empty() && arr[deq.back()] < arr[i]){
+            //step2:-->check only the lement greater should be inserted
+            while(!deq.empty() && arr[deq.back()] <= arr[i]){
                 deq.pop_back();
             }
             
-            //step3-->push current in the deque
+            //step3:-->insert the element at the back of the queue
             deq.push_back(i);
             
-            //step4-->check if the size of windo is k
-            if(i+1-k >=0){
-                window.push_back(arr[deq.front()]);
+            //step4:-->insert the only if window size is sufficent
+            if(i-k+1>=0){
+                ans.push_back(arr[deq.front()]);
             }
         }
         
-        return window;
+        for(auto ele:ans){
+            cout<<ele<<" ";
+        }
     }
 };
+
 
 //{ Driver Code Starts.
 
