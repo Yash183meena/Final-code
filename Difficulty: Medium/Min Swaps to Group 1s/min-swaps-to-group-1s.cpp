@@ -10,11 +10,9 @@ class Solution {
     int minSwaps(vector<int>& arr) {
         // Complete the function
         
-        int window_size=0;
         int ones=0;
-        
-        for(int i=0;i<arr.size();i++){
-            if(arr[i]==1){
+        for(auto ele:arr){
+            if(ele==1){
                 ones++;
             }
         }
@@ -23,25 +21,29 @@ class Solution {
             return -1;
         }
         
-        window_size=ones;
-        int sum=0,s=0;
+        int window_size=ones;
         
-        int left=0,right=0;
+        int left=0,right=0,swaps=INT_MAX;
+        ones=0;
         
         while(right<arr.size()){
             
-            s+=arr[right];
+            if(arr[right]==1){
+                ones++;
+            }
             
             if(right-left+1==window_size){
-                sum=max(sum,s);
-                s-=arr[left];
+                swaps=min(swaps,window_size-ones);
+                if(arr[left]==1){
+                    ones--;
+                }
                 left++;
             }
             
             right++;
         }
- 
-        return window_size-sum;
+        
+        return swaps;
     }
 };
 
